@@ -19,11 +19,13 @@ public class BeeController : MonoBehaviour
     private RaycastHit2D hit;
     private LayerMask playerLayerMask;
     private Animator animator;
+    private Vida life;
     
     // Chaves
     [SerializeField] private bool isMoving;
     [SerializeField] private bool isChasing;
     [SerializeField] private bool isAttacking;
+    [SerializeField] private bool isDead;
     
     // Start is called before the first frame update
     void Start()
@@ -43,17 +45,26 @@ public class BeeController : MonoBehaviour
         playerLayerMask = LayerMask.GetMask("Player");
         
         animator = GetComponent<Animator>();
+        
+        life = GetComponentInChildren<Vida>();
+        
+        isDead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isMoving){
+        if (isMoving && !isDead){
             Movimentar();
         }
         
-        PerseguirEAtacar();
+        if(!isDead){
+            PerseguirEAtacar();   
+        }
         
+        if(life.life <= 0){
+            Morrer();
+        }
         
     }
     
@@ -116,6 +127,14 @@ public class BeeController : MonoBehaviour
         }
     }
     
-    
+    private void Morrer(){
+        
+        isDead = true;
+        animator.SetTrigger("isDead");
+        gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        Destroy(gameObject, 4f);
+        
+    }
     
 }

@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     // Variáveis de movimento
     private int moveSpeed = 4;
     private float jumpVelocity = 30f;
+    private bool isAttacking;
+    private float attackRate;
     
     // Variáveis de animação
     private bool isRunning = false;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     [SerializeField] private LayerMask plataformLayerMask;
+    private Vida enemyHealth;
     
     // Start is called before the first frame update
     void Start()
@@ -75,7 +78,7 @@ public class PlayerController : MonoBehaviour
     // Verifica se o player está em cima de uma plataforma
     private bool isGrounded(){
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, plataformLayerMask);
-        Debug.Log(raycastHit2D.collider);
+        //Debug.Log(raycastHit2D.collider);
         return raycastHit2D.collider != null;
     }
     
@@ -84,9 +87,43 @@ public class PlayerController : MonoBehaviour
         
         if(Input.GetMouseButtonDown(0) || Input.GetKeyDown("z") || Input.GetKeyDown("k")){
             animator.SetTrigger("isAttacking");
+            isAttacking = true;
             return true;
+        } else {
+            if(Time.time > attackRate){
+                attackRate = Time.time + 0.5f;
+                isAttacking = false;
+            }
         }
         
         return false;
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other) {
+        
+        // Quando atacar vai tirar 25 de dano da abelha
+        if(other.gameObject.CompareTag("Bee")){
+            enemyHealth = other.gameObject.GetComponentInChildren<Vida>();
+            if(isAttacking){
+                enemyHealth.SetLife(25f);
+            }
+        }
+        
+        // Quando atacar vai tirar 20 de dano da águia
+        if(other.gameObject.CompareTag("Eagle")){
+            enemyHealth = other.gameObject.GetComponentInChildren<Vida>();
+            if(isAttacking){
+                enemyHealth.SetLife(20f);
+            }
+        }
+        
+        // Quando atacar vai tirar 15 de dano da formiga
+        if(other.gameObject.CompareTag("Ant")){
+            enemyHealth = other.gameObject.GetComponentInChildren<Vida>();
+            if(isAttacking){
+                enemyHealth.SetLife(15f);
+            }
+        }
+        
     }
 }
