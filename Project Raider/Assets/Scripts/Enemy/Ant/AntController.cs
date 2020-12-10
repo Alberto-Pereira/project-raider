@@ -22,6 +22,7 @@ public class AntController : MonoBehaviour
     private Vida life;
     private Transform normalTransform;
     private Transform nextTransform;
+    private Vida playerLife;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -50,6 +51,7 @@ public class AntController : MonoBehaviour
         animator = GetComponent<Animator>();
         
         life = GetComponentInChildren<Vida>();
+        playerLife = GameObject.FindWithTag("VidaPlayer").GetComponent<Vida>();
         
         isDead = false;
         
@@ -129,12 +131,13 @@ public class AntController : MonoBehaviour
                 animator.SetBool("isChasing", true);
                 gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, hit.transform.position, 2 * speed * Time.deltaTime);
                 
-                if((gameObject.transform.position.x - hit.transform.position.x) < 2.2f){
+                if((gameObject.transform.position.x - hit.transform.position.x) < 2.3f){
                     //Debug.Log("Atacando");
                     if(Time.time > attackTime){
                         attackTime = Time.time + 1.3f;
                         animator.SetTrigger("isAttacking");
                         Debug.Log("Ataque realizado!");
+                        playerLife.SetLife(30f);
                     }
                 }
                 

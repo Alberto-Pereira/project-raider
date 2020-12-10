@@ -20,6 +20,7 @@ public class EagleController : MonoBehaviour
     private LayerMask playerLayerMask;
     private Animator animator;
     private Vida life;
+    private Vida playerLife;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -47,6 +48,7 @@ public class EagleController : MonoBehaviour
         animator = GetComponent<Animator>();
         
         life = GetComponentInChildren<Vida>();
+        playerLife = GameObject.FindWithTag("VidaPlayer").GetComponent<Vida>();
         
         isDead = false;
     }
@@ -114,6 +116,7 @@ public class EagleController : MonoBehaviour
                         attackTime = Time.time + 1.3f;
                         animator.SetTrigger("isAttacking");
                         Debug.Log("Ataque realizado!");
+                        playerLife.SetLife(20f);
                     }
                 }
                 

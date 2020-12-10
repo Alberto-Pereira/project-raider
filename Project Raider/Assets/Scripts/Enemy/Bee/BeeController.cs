@@ -20,6 +20,7 @@ public class BeeController : MonoBehaviour
     private LayerMask playerLayerMask;
     private Animator animator;
     private Vida life;
+    private Vida playerLife;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -31,24 +32,20 @@ public class BeeController : MonoBehaviour
     void Start()
     {
         position = gameObject.transform.position;
-        
         posA = position;
         posA.x -= 4;
-        
         posB = position;
         posB.x += 4;
-        
         nextPos = posB;
         
         isMoving = true;
+        isDead = false;
         
         playerLayerMask = LayerMask.GetMask("Player");
-        
         animator = GetComponent<Animator>();
-        
         life = GetComponentInChildren<Vida>();
+        playerLife = GameObject.FindWithTag("VidaPlayer").GetComponent<Vida>();
         
-        isDead = false;
     }
 
     // Update is called once per frame
@@ -114,6 +111,7 @@ public class BeeController : MonoBehaviour
                         attackTime = Time.time + 1.3f;
                         animator.SetTrigger("isAttacking");
                         Debug.Log("Ataque realizado!");
+                        playerLife.SetLife(10f);
                     }
                 }
                 

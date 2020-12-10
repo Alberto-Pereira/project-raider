@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D boxCollider;
     [SerializeField] private LayerMask plataformLayerMask;
     private Vida enemyHealth;
+    private Vida playerLife;
     
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        playerLife = GameObject.FindGameObjectWithTag("VidaPlayer").GetComponent<Vida>();
     }
 
     // Update is called once per frame
@@ -41,6 +43,10 @@ public class PlayerController : MonoBehaviour
         Pular();
         
         Atacar();
+        
+        if(playerLife.life <= 0){
+            Destroy(gameObject);
+        }
     }
     
     // Mecânicas básicas de movimentação - andar

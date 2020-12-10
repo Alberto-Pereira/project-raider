@@ -31,4 +31,14 @@ public class Vida : MonoBehaviour
         
         barra.localScale = new Vector2((life/100f), 1f);
     }
+    
+    public void MoreLife(float moreLife){
+        life += moreLife;
+        
+        if(life > 100){
+            life = 100;
+        }
+        
+        barra.localScale = new Vector2((life/100f), 1f);
+    }
 }
