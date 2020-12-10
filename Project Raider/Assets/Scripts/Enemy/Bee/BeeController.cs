@@ -81,23 +81,24 @@ public class BeeController : MonoBehaviour
     private void PerseguirEAtacar(){
         
         if(nextPos == posA){
-            hit = Physics2D.Raycast(transform.position, Vector2.left, range, playerLayerMask);
-            Debug.DrawRay(transform.position, Vector2.left * range, Color.blue);
+            hit = Physics2D.Raycast(transform.position + (transform.up * 0.5f), Vector2.left, range, playerLayerMask);
+            Debug.DrawRay(transform.position + (transform.up * 0.5f), Vector2.left * range, Color.blue);
             
             
         } else if(nextPos == posB){
-            hit = Physics2D.Raycast(transform.position, Vector2.right, range, playerLayerMask);
-            Debug.DrawRay(transform.position, Vector2.right * range, Color.blue);
+            hit = Physics2D.Raycast(transform.position + (transform.up * 0.5f), Vector2.right, range, playerLayerMask);
+            Debug.DrawRay(transform.position + (transform.up * 0.5f), Vector2.right * range, Color.blue);
             
         }
         
         if(hit){
             if(hit.collider.CompareTag("Player")){
                 isMoving = false;
+                animator.SetBool("isChasing", true);
                 gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, hit.transform.position, 2 * speed * Time.deltaTime);
                 
                 if((gameObject.transform.position.x - hit.transform.position.x) < 1.5f){
-                    Debug.Log("Atacando");
+                    //Debug.Log("Atacando");
                     if(Time.time > attackTime){
                         attackTime = Time.time + 1.3f;
                         animator.SetTrigger("isAttacking");
@@ -105,12 +106,13 @@ public class BeeController : MonoBehaviour
                     }
                 }
                 
-                Debug.Log("Está seguindo");
+                //Debug.Log("Está seguindo");
                 isChasing = true;
             } 
         } else {
             isMoving = true;
             isChasing = false;
+            animator.SetBool("isChasing", false);
         }
     }
     
