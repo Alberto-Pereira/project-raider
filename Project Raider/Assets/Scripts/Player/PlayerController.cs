@@ -132,4 +132,10 @@ public class PlayerController : MonoBehaviour
         }
         
     }
+    
+    public void AumentarVida(float vida){
+        
+        playerLife.MoreLife(vida);
+        
+    }
 }

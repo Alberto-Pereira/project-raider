@@ -10,6 +10,7 @@ public class BeeController : MonoBehaviour
     private float range = 5f;
     private float attackRange = 2f;
     private float attackTime = 0f;
+    private float gemSpawnTime = 0f;
     
     // Componentes
     private Vector2 position;
@@ -21,6 +22,7 @@ public class BeeController : MonoBehaviour
     private Animator animator;
     private Vida life;
     private Vida playerLife;
+    [SerializeField] GameObject dropLife;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -131,6 +133,13 @@ public class BeeController : MonoBehaviour
         animator.SetTrigger("isDead");
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
+       
+        if(Time.time > gemSpawnTime){
+            gemSpawnTime = Time.time + 6f;
+            Instantiate(dropLife, this.transform.position, this.transform.rotation);
+            
+        }
+        
         Destroy(gameObject, 4f);
         
     }
