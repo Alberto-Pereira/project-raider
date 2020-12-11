@@ -23,6 +23,7 @@ public class BeeController : MonoBehaviour
     private Vida life;
     private Vida playerLife;
     [SerializeField] GameObject dropLife;
+    [SerializeField] GameObject dropGem;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -136,8 +137,15 @@ public class BeeController : MonoBehaviour
        
         if(Time.time > gemSpawnTime){
             gemSpawnTime = Time.time + 6f;
-            Instantiate(dropLife, this.transform.position, this.transform.rotation);
             
+            for (int i = 0; i < Random.Range(1,2); i++) {
+                Instantiate(dropLife, this.transform.position, this.transform.rotation);
+            }
+            
+            for (int i = 0; i < Random.Range(1,4); i++) {
+                Instantiate(dropGem, this.transform.position, this.transform.rotation);
+            }
+        
         }
         
         Destroy(gameObject, 4f);

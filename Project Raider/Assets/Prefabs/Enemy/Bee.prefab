@@ -352,6 +352,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.8
+  dropLife: {fileID: 8893216305802406933, guid: 2fb1424a98d7565478a261b399473ab3,
+    type: 3}
+  dropGem: {fileID: 1557993755971280861, guid: 87e2a45a58f0a134abe118c86488cb30, type: 3}
   isMoving: 0
   isChasing: 0
   isAttacking: 0
