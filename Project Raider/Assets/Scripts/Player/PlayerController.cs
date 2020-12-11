@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask plataformLayerMask;
     private Vida enemyHealth;
     private Vida playerLife;
+    private AudioSource playerAudio;
+    public AudioClip attackSound;
+    public AudioClip jumpSound;
     
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         playerLife = GameObject.FindGameObjectWithTag("VidaPlayer").GetComponent<Vida>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -36,6 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         if(MovimentarJogador()){
             animator.SetBool("isRunning", true);
+            
         } else {
             animator.SetBool("isRunning", false);
         }
@@ -78,6 +83,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded() && (Input.GetKeyDown("space") || Input.GetKeyDown("x") || Input.GetKeyDown("l"))){
             rb.velocity = Vector2.up * jumpVelocity;
             animator.SetTrigger("isJumping");
+            playerAudio.PlayOneShot(jumpSound, 0.8f);
             return true;
         }
         
@@ -98,6 +104,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonDown(0) || Input.GetKeyDown("z") || Input.GetKeyDown("k")){
             animator.SetTrigger("isAttacking");
             isAttacking = true;
+            playerAudio.PlayOneShot(attackSound, 0.5f);
             return true;
         } else {
             if(Time.time > attackRate){

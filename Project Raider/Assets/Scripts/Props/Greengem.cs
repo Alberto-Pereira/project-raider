@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Greengem : MonoBehaviour
 {
+    private AudioSource gemAudio;
+    public AudioClip dropSound;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gemAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -22,7 +24,9 @@ public class Greengem : MonoBehaviour
             
             other.transform.GetComponent<PlayerController>().AumentarVida(10f);
             
-            Destroy(gameObject);
+            gemAudio.PlayOneShot(dropSound);
+            
+            Destroy(gameObject, 0.3f);
             
         }
         

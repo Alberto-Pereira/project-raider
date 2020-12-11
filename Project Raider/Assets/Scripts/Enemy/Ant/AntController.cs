@@ -26,6 +26,9 @@ public class AntController : MonoBehaviour
     private Vida playerLife;
     [SerializeField] GameObject dropLife;
     [SerializeField] GameObject dropGem;
+    private AudioSource antAudio;
+    public AudioClip attackSound;
+    public AudioClip deathSound;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -55,6 +58,7 @@ public class AntController : MonoBehaviour
         
         life = GetComponentInChildren<Vida>();
         playerLife = GameObject.FindWithTag("VidaPlayer").GetComponent<Vida>();
+        antAudio = GetComponent<AudioSource>();
         
         isDead = false;
         
@@ -140,6 +144,7 @@ public class AntController : MonoBehaviour
                         attackTime = Time.time + 1.3f;
                         animator.SetTrigger("isAttacking");
                         Debug.Log("Ataque realizado!");
+                        antAudio.PlayOneShot(attackSound);
                         playerLife.SetLife(30f);
                     }
                 }
@@ -163,6 +168,8 @@ public class AntController : MonoBehaviour
         
         if(Time.time > gemSpawnTime){
             gemSpawnTime = Time.time + 6f;
+            
+            antAudio.PlayOneShot(deathSound);
             
             for (int i = 0; i < Random.Range(1,2); i++) {
                 Instantiate(dropLife, this.transform.position, this.transform.rotation);

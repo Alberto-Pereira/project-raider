@@ -24,6 +24,9 @@ public class BeeController : MonoBehaviour
     private Vida playerLife;
     [SerializeField] GameObject dropLife;
     [SerializeField] GameObject dropGem;
+    private AudioSource beeAudio;
+    public AudioClip attackSound;
+    public AudioClip deathSound;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -48,6 +51,7 @@ public class BeeController : MonoBehaviour
         animator = GetComponent<Animator>();
         life = GetComponentInChildren<Vida>();
         playerLife = GameObject.FindWithTag("VidaPlayer").GetComponent<Vida>();
+        beeAudio = GetComponent<AudioSource>();
         
     }
 
@@ -114,6 +118,7 @@ public class BeeController : MonoBehaviour
                         attackTime = Time.time + 1.3f;
                         animator.SetTrigger("isAttacking");
                         Debug.Log("Ataque realizado!");
+                        beeAudio.PlayOneShot(attackSound);
                         playerLife.SetLife(10f);
                     }
                 }
@@ -137,6 +142,8 @@ public class BeeController : MonoBehaviour
        
         if(Time.time > gemSpawnTime){
             gemSpawnTime = Time.time + 6f;
+            
+            beeAudio.PlayOneShot(deathSound);
             
             for (int i = 0; i < Random.Range(1,2); i++) {
                 Instantiate(dropLife, this.transform.position, this.transform.rotation);
