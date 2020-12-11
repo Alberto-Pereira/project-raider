@@ -10,6 +10,7 @@ public class EagleController : MonoBehaviour
     private float range = 7f;
     private float attackRange = 2f;
     private float attackTime = 0f;
+    private float gemSpawnTime = 0f;
     
     // Componentes
     private Vector2 position;
@@ -21,6 +22,8 @@ public class EagleController : MonoBehaviour
     private Animator animator;
     private Vida life;
     private Vida playerLife;
+    [SerializeField] GameObject dropLife;
+    [SerializeField] GameObject dropGem;
     
     // Chaves
     [SerializeField] private bool isMoving;
@@ -136,6 +139,20 @@ public class EagleController : MonoBehaviour
         animator.SetTrigger("isDead");
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        
+        if(Time.time > gemSpawnTime){
+            gemSpawnTime = Time.time + 6f;
+            
+            for (int i = 0; i < Random.Range(1,2); i++) {
+                Instantiate(dropLife, this.transform.position, this.transform.rotation);
+            }
+            
+            for (int i = 0; i < Random.Range(1,4); i++) {
+                Instantiate(dropGem, this.transform.position, this.transform.rotation);
+            }
+        
+        }
+        
         Destroy(gameObject, 4f);
         
     }

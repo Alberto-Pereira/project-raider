@@ -8,6 +8,7 @@ TagManager:
   - Ant
   - Eagle
   - VidaPlayer
+  - RedGemPlayer
   layers:
   - Default
   - TransparentFX

@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     
     // Variáveis de movimento
     private int moveSpeed = 4;
-    private float jumpVelocity = 30f;
+    private float jumpVelocity = 40f;
     private bool isAttacking;
     private float attackRate;
     
@@ -45,7 +45,11 @@ public class PlayerController : MonoBehaviour
         Atacar();
         
         if(playerLife.life <= 0){
-            Destroy(gameObject);
+            Application.LoadLevel(Application.loadedLevel);
+        }
+        
+        if(gameObject.transform.position.y < -30){
+            Application.LoadLevel(Application.loadedLevel);
         }
     }
     
@@ -136,6 +140,12 @@ public class PlayerController : MonoBehaviour
     public void AumentarVida(float vida){
         
         playerLife.MoreLife(vida);
+        
+    }
+    
+    public void GanharChave(){
+        
+        animator.SetBool("Key", true);
         
     }
 }
